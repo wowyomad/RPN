@@ -1,6 +1,5 @@
 ﻿#include <stdio.h>
 #include <iostream>
-#include <Windows.h>
 
 #pragma warning(disable:4996)
 
