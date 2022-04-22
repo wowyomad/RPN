@@ -110,31 +110,31 @@ int priority(const char ch)
 }
 
 
-bool StandadrtToRpn(const char* src, char* rvn)
+bool StandartToRpn(const char* orig, char* rpn)
 {
     Stack* stack = NULL;
-    for (int i = 0; src[i] != '\0'; i++)
+    for (int i = 0; orig[i] != '\0'; i++)
     {
-        if (isalpha(src[i]))
+        if (isalpha(orig[i]))
         {
-            strncat(rvn, src + i, 1);
+            strncat(rpn, orig + i, 1);
             continue;
         }
 
-        else if (src[i] == '(')
+        else if (orig[i] == '(')
         {
-            Push(&stack, src[i]);
+            Push(&stack, orig[i]);
             continue;
         }
 
-        else if (src[i] == ')')
+        else if (orig[i] == ')')
         {
             while (stack != NULL)
             {
                 if (Get(stack) == '(')
                     break;
                 char ch = Pop(&stack);
-                strncat(rvn, &ch, 1);
+                strncat(rpn, &ch, 1);
             }
 
             if (stack == NULL)
@@ -147,27 +147,27 @@ bool StandadrtToRpn(const char* src, char* rvn)
             continue;
         }
 
-        else if (is_operator(src[i]))
+        else if (is_operator(orig[i]))
         {
             if (stack == NULL)
             {
-                Push(&stack, src[i]);
+                Push(&stack, orig[i]);
             }
 
-            else if (priority(src[i]) > priority(Get(stack)))
+            else if (priority(orig[i]) > priority(Get(stack)))
             {
-                Push(&stack, src[i]);
+                Push(&stack, orig[i]);
             }
             else
             {
                 while (stack != NULL)
                 {
-                    if (priority(src[i]) > priority(Get(stack)))
-                        break;
                     char ch = Pop(&stack);
-                    strncat(rvn, &ch, 1);
+                    strncat(rpn, &ch, 1);
+                    if (priority(orig[i]) > priority(Get(stack)))
+                        break;
                 }
-                Push(&stack, src[i]);
+                Push(&stack, orig[i]);
             }
         }
 
@@ -181,7 +181,7 @@ bool StandadrtToRpn(const char* src, char* rvn)
     while (stack != NULL)
     {
         char ch = Pop(&stack);
-        strncat(rvn, &ch, 1);
+        strncat(rpn, &ch, 1);
     }
 }
 
@@ -243,7 +243,7 @@ char Pop(Stack** stack)
 
     if (*stack == NULL)
     {
-        printf("%s", "Стэйк нулевы, чакай бяды\n");
+        printf("%s", "В стэке пусто. Возвращаю нуль\n");
         return 0;
     }
 
@@ -268,7 +268,7 @@ void Print(Stack* stack)
 {
     if (stack == NULL)
     {
-        printf("Стэйк пусты\n");
+        printf("Тут ничего нет\n");
         return;
     }
 
