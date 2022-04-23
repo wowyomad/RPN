@@ -17,16 +17,17 @@ char Get(Stack* stack);
 void Print(Stack* stack);
 void Delete(Stack** stack);
 
-bool StandartToRpn(const char* standart, char* rvn);
+bool StandartToRpn(const char* standart, char* rpn);
 bool is_operator(const char ch);
 int priority(const char ch);
-float Calculate(const char* rvn, float* letterValue);
+float Calculate(const char* rpn, float* letterValue);
 
 void InitVar(char ch, float* letterValue, bool* letterIsInit);
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+
     char standart[INPUT_LENGTH];
     char rpn[INPUT_LENGTH]{ '\0' };
     bool varIsInit[UCHAR_MAX] = { false };
